@@ -1,6 +1,6 @@
 Name: jsr-311
 Version: 1.1.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: JAX-RS: Java API for RESTful Web Services
 Group: Development/Libraries
 License: CDDL
@@ -18,7 +18,7 @@ BuildRequires: jpackage-utils
 
 BuildRequires: buildnumber-maven-plugin
 BuildRequires: junit
-BuildRequires: maven
+BuildRequires: maven-local
 BuildRequires: maven-compiler-plugin
 BuildRequires: maven-jar-plugin
 BuildRequires: maven-javadoc-plugin
@@ -86,6 +86,10 @@ cp -rp target/site/apidocs/* %{buildroot}%{_javadocdir}/%{name}/.
 
 
 %changelog
+* Wed Feb 06 2013 Java SIG <java-devel@lists.fedoraproject.org> - 1.1.1-3
+- Update for https://fedoraproject.org/wiki/Fedora_19_Maven_Rebuild
+- Replace maven BuildRequires with maven-local
+
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
