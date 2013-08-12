@@ -1,6 +1,6 @@
 Name:          jsr-311
 Version:       1.1.1
-Release:       6%{?dist}
+Release:       7%{?dist}
 Summary:       JAX-RS: Java API for RESTful Web Services
 License:       CDDL
 URL:           http://jsr311.java.net
@@ -20,6 +20,8 @@ BuildRequires: maven-source-plugin
 
 BuildArch:     noarch
 
+Provides:      javax.ws.rs
+
 %description
 JAX-RS: Java API for RESTful Web Services
 
@@ -35,17 +37,21 @@ This package contains javadoc for %{name}.
 
 %build
 
-%mvn_file :jsr311-api %{name}
-%mvn_build -- -Dproject.build.sourceEncoding=UTF-8 
+%mvn_file :jsr311-api %{name} javax.ws.rs/%{name}
+%mvn_build -- -Dproject.build.sourceEncoding=UTF-8
 
 %install
 %mvn_install
 
 %files -f .mfiles
+%dir %{_javadir}/javax.ws.rs/
 
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Mon Aug 12 2013 Stanislav Ochotnicky <sochotnicky@redhat.com> - 1.1.1-7
+- Add javax.ws.rs provides and directory
+
 * Mon Aug 05 2013 gil cattaneo <puntogil@libero.it> 1.1.1-6
 - rebuilt rhbz#992645
 - swith to Xmvn
