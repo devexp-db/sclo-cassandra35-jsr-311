@@ -1,6 +1,6 @@
 Name:          jsr-311
 Version:       1.1.1
-Release:       7%{?dist}
+Release:       8%{?dist}
 Summary:       JAX-RS: Java API for RESTful Web Services
 License:       CDDL
 URL:           http://jsr311.java.net
@@ -49,6 +49,9 @@ This package contains javadoc for %{name}.
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 1.1.1-8
+- Use Requires: java-headless rebuild (#1067528)
+
 * Mon Aug 12 2013 Stanislav Ochotnicky <sochotnicky@redhat.com> - 1.1.1-7
 - Add javax.ws.rs provides and directory
 
