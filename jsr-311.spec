@@ -1,6 +1,6 @@
 Name:          jsr-311
 Version:       1.1.1
-Release:       8%{?dist}
+Release:       9%{?dist}
 Summary:       JAX-RS: Java API for RESTful Web Services
 License:       CDDL
 URL:           http://jsr311.java.net
@@ -49,6 +49,9 @@ This package contains javadoc for %{name}.
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.1-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 1.1.1-8
 - Use Requires: java-headless rebuild (#1067528)
 
