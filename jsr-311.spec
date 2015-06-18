@@ -1,26 +1,19 @@
 Name:          jsr-311
 Version:       1.1.1
-Release:       10%{?dist}
+Release:       11%{?dist}
 Summary:       JAX-RS: Java API for RESTful Web Services
 License:       CDDL
 URL:           http://jsr311.java.net
 # svn export https://svn.java.net/svn/jsr311~svn/tags/jsr311-api-1.1.1 jsr-311-1.1.1
 # tar cvzf jsr-311-1.1.1.tgz jsr-311-1.1.1
 Source0:       %{name}-%{version}.tgz
-# Patch the POM:
-Patch0:        %{name}-pom.patch
 
-BuildRequires: java-devel
-
-BuildRequires: buildnumber-maven-plugin
-BuildRequires: junit
-BuildRequires: maven-local
-BuildRequires: maven-plugin-bundle
-BuildRequires: maven-source-plugin
-
-BuildArch:     noarch
+BuildRequires:  maven-local
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 
 Provides:      javax.ws.rs
+BuildArch:     noarch
 
 %description
 JAX-RS: Java API for RESTful Web Services
@@ -33,7 +26,11 @@ This package contains javadoc for %{name}.
 
 %prep
 %setup -q
-%patch0
+
+%pom_remove_plugin :buildnumber-maven-plugin
+%pom_remove_plugin :maven-javadoc-plugin
+%pom_remove_plugin :maven-source-plugin
+%pom_xpath_remove "///pom:extensions/pom:extension[pom:artifactId='wagon-svn']"
 
 %build
 
@@ -49,6 +46,9 @@ This package contains javadoc for %{name}.
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Thu Jun 18 2015 Michal Srb <msrb@redhat.com> - 1.1.1-11
+- Fix FTBFS
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
