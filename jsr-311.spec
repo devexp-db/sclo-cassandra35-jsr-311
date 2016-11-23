@@ -1,44 +1,53 @@
-Name:          jsr-311
-Version:       1.1.1
-Release:       12%{?dist}
-Summary:       JAX-RS: Java API for RESTful Web Services
-License:       CDDL
-URL:           http://jsr311.java.net
+%{?scl:%scl_package jsr-311}
+%{!?scl:%global pkg_name %{name}}
+
+Name:		%{?scl_prefix}jsr-311
+Version:	1.1.1
+Release:	13%{?dist}
+Summary:	JAX-RS: Java API for RESTful Web Services
+License:	CDDL
+URL:		http://jsr311.java.net
 # svn export https://svn.java.net/svn/jsr311~svn/tags/jsr311-api-1.1.1 jsr-311-1.1.1
 # tar cvzf jsr-311-1.1.1.tgz jsr-311-1.1.1
-Source0:       %{name}-%{version}.tgz
+Source0:	%{pkg_name}-%{version}.tgz
 
-BuildRequires:  maven-local
-BuildRequires:  mvn(junit:junit)
-BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:	%{?scl_prefix_maven}maven-local
+BuildRequires:	%{?scl_prefix_maven}maven-plugin-bundle
+BuildRequires:	%{?scl_prefix_java_common}junit
+%{?scl:Requires: %scl_runtime}
 
-Provides:      javax.ws.rs
-BuildArch:     noarch
+Provides:	javax.ws.rs
+BuildArch:	noarch
 
 %description
 JAX-RS: Java API for RESTful Web Services
 
 %package javadoc
-Summary:       Javadoc for %{name}
+Summary:	Javadoc for %{name}
 
 %description javadoc
 This package contains javadoc for %{name}.
 
 %prep
-%setup -q
+%setup -q -n %{pkg_name}-%{version}
 
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %pom_remove_plugin :buildnumber-maven-plugin
 %pom_remove_plugin :maven-javadoc-plugin
 %pom_remove_plugin :maven-source-plugin
 %pom_xpath_remove "///pom:extensions/pom:extension[pom:artifactId='wagon-svn']"
+%{?scl:EOF}
 
 %build
-
-%mvn_file :jsr311-api %{name} javax.ws.rs/%{name}
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
+%mvn_file :jsr311-api %{pkg_name} javax.ws.rs/%{pkg_name}
 %mvn_build -- -Dproject.build.sourceEncoding=UTF-8
+%{?scl:EOF}
 
 %install
+%{?scl:scl enable %{scl_maven} %{scl} - << "EOF"}
 %mvn_install
+%{?scl:EOF}
 
 %files -f .mfiles
 %dir %{_javadir}/javax.ws.rs/
@@ -46,6 +55,9 @@ This package contains javadoc for %{name}.
 %files javadoc -f .mfiles-javadoc
 
 %changelog
+* Wed Nov 23 2016 Tomas Repik <trepik@redhat.com> - 1.1.1-13
+- scl conversion
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
